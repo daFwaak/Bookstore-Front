@@ -40,8 +40,8 @@ const BookDetail = () => {
         {/* Book Information */}
         <div className="md:col-span-8 space-y-4">
           <Typography variant="h3" className="font-bold text-lg md:text-2xl">{data.title}</Typography>
-          <Typography variant="h5" className="text-gray-700">by {data.author}</Typography>
-          <Typography className="text-gray-600 text-sm md:text-lg">{data.description}</Typography>
+          <Typography variant="h5" className="text-black">by {data.author}</Typography>
+          <Typography className="text-black text-sm md:text-lg">{data.description}</Typography>
           <Typography variant="h5" className="font-semibold">Price: Nrs. {data.price}</Typography>
           <Typography className={`text-lg font-semibold ${data.stock > 0 ? "text-green-600" : "text-red-600"}`}>
             {data.stock > 0 ? `${data.stock} in stock` : "Out of Stock"}
@@ -67,7 +67,7 @@ const BookDetail = () => {
                   src={book.image.startsWith("http") ? book.image : `${base}${book.image}`}
                   alt={book.title}
                 />
-                <Typography className="text-sm text-center mt-2">{book.title}</Typography>
+                <Typography className="text-md text-center mt-2">{book.title}</Typography>
               </div>
             ))}
           </div>

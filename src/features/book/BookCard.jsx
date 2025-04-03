@@ -25,7 +25,7 @@ export function BookCard({ book }) {
         <img
           src={`${base}${book.image}`}
           alt={book.title}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover hover:scale-105 transition-transform"
         />
       </div>
      

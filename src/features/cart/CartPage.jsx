@@ -95,7 +95,7 @@ const CartPage = () => {
         <div className="md:col-span-2">
           {apiCart?.items?.map((item) => (
             <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
-              <img src={item.bookId.imageUrl} alt={item.bookId.title} className="w-24 h-32 object-cover rounded-md" />
+              
               
               <div className="flex-1 ml-4">
                 <h3 className="text-lg font-semibold">{item.bookId?.title}</h3>
@@ -140,23 +140,24 @@ const CartPage = () => {
         </div>
 
         {/* Order Summary Section */}
-        <div className="border rounded-lg p-6 shadow-sm bg-white">
+        <div className="border rounded-lg p-6 shadow-sm bg-white flex flex-col justify-between h-full">
           <h3 className="text-xl font-bold mb-4">Order Summary</h3>
-          <div className="flex justify-between text-gray-700">
-            <p>Subtotal</p>
-            <p>Rs. {totalAmount.toFixed(2)}</p>
-          </div>
+           <div className="flex justify-between text-gray-700 mb-4">
+             <p>Sub-total</p>
+              <p>Rs. {totalAmount.toFixed(2)}</p>
+            </div>
 
-          {/* Checkout Button */}
-          <Button
-            color="blue"
-            size="lg"
-            className="w-full mt-4"
-            onClick={handleOrder}
-          >
-            PROCEED TO CHECKOUT
-          </Button>
+            {/* Checkout Button */}
+            <Button
+              color="blue"
+              size="lg"
+              className="w-full mt-auto" // This ensures the button stays at the bottom
+              onClick={handleOrder}
+            >
+              PROCEED TO CHECKOUT
+            </Button>
         </div>
+
       </div>
     </div>
     </main>
