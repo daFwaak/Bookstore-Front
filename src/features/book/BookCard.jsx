@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 export function BookList({ books }) {
   return (
-    <div className="grid grid-cols-5 gap-4">
+    <div>
       {books.map((book) => (
         <BookCard key={book._id} book={book} />
       ))}
@@ -21,7 +21,7 @@ export function BookCard({ book }) {
       onClick={() => nav(`/book-detail/${book._id}`)}
     >
       
-      <div className="h-[280px] w-[180px] overflow-hidden">
+      <div className="h-[280px] w-[180px] ">
         <img
           src={`${base}${book.image}`}
           alt={book.title}
