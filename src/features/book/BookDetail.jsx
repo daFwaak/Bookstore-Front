@@ -23,21 +23,18 @@ const BookDetail = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-6">
-      {/* Book Details Section */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* Book Image & Cart Section */}
         <div className="md:col-span-4 flex flex-col items-center">
           <img
             src={data.image.startsWith("http") ? data.image : `${base}${data.image}`}
             alt={data.title}
-            className="w-40 md:w-52 lg:w-60 h-auto object-cover rounded-lg shadow-md" // ✅ Reduced the size
+            className="w-40 md:w-52 lg:w-60 h-auto object-cover rounded-lg shadow-md" 
           />
           <div className="w-full mt-4">
             <CartTable book={data} />
           </div>
         </div>
-
-        {/* Book Information */}
+        
         <div className="md:col-span-8 space-y-4">
           <Typography variant="h3" className="font-bold text-lg md:text-2xl">{data.title}</Typography>
           <Typography variant="h5" className="text-black">by {data.author}</Typography>
@@ -49,7 +46,6 @@ const BookDetail = () => {
         </div>
       </div>
 
-      {/* More Books Section */}
       {filteredBooks?.length > 0 && (
         <div className="mt-12">
           <Typography variant="h6" className="mb-3 font-bold text-center">
@@ -67,7 +63,7 @@ const BookDetail = () => {
                   src={book.image.startsWith("http") ? book.image : `${base}${book.image}`}
                   alt={book.title}
                 />
-                <Typography className="text-md text-center mt-2">{book.title}</Typography>
+                <Typography className=" text-black text-md text-center mt-2">{book.title}</Typography>
               </div>
             ))}
           </div>
@@ -99,25 +95,32 @@ export function CartTable({ book }) {
   };
 
   return (
-    <Card className="flex flex-col sm:flex-row justify-between items-center p-4">
-      <div className="flex items-center space-x-4">
-        <IconButton disabled={qty === 1} onClick={() => setQty(qty - 1)} size="sm">
+    <Card className="flex flex-col items-center justify-center p-4">
+      <div className="flex flex-col items-center space-y-4">
+        <div className="flex items-center space-x-4">
+          <IconButton
+            disabled={qty === 1}
+            onClick={() => setQty(qty - 1)}
+            size="sm"
+          >
           <i className="fas fa-minus" />
-        </IconButton>
-        <p className="font-bold">{qty}</p>
-        <IconButton onClick={() => setQty(qty + 1)} size="sm">
-          <i className="fas fa-plus" />
-        </IconButton>
+          </IconButton>
+            <p className="font-bold">{qty}</p>
+          <IconButton onClick={() => setQty(qty + 1)} size="sm">
+            <i className="fas fa-plus" />
+          </IconButton>
+        </div>
+        <div className="w-full flex justify-center mt-4">
+          <Button
+            disabled={!user || user.role === "admin" || isLoading}
+            onClick={handleAdd}
+            size="sm"
+            className="px-5 py-2"
+          >
+            {isLoading ? "Adding..." : "Add To Cart"}
+          </Button>
+        </div>
       </div>
-
-      <Button
-        disabled={!user || user.role === "admin" || isLoading}
-        onClick={handleAdd}
-        size="sm"
-        className="px-5 py-2 mt-4 sm:mt-0"
-      >
-        {isLoading ? "Adding..." : "Add To Cart"}
-      </Button>
     </Card>
   );
 }

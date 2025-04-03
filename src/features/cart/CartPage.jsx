@@ -91,7 +91,6 @@ const CartPage = () => {
       <h2 className="text-3xl font-bold mb-6">Shopping Cart ({apiCart?.items?.length})</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Cart Items Section */}
         <div className="md:col-span-2">
           {apiCart?.items?.map((item) => (
             <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
@@ -101,7 +100,7 @@ const CartPage = () => {
                 <h3 className="text-lg font-semibold">{item.bookId?.title}</h3>
                 <p className="text-gray-500">by {item.bookId?.author}</p>
 
-                {/* Quantity Selector */}
+                
                 <div className="flex items-center mt-2">
                   <Button
                     color="gray"
@@ -125,7 +124,7 @@ const CartPage = () => {
                 </div>
               </div>
 
-              {/* Price & Remove Button */}
+              
               <div className="text-right">
                 <p className="text-lg font-semibold">Rs. {item.bookId?.price}</p>
                 <button
@@ -147,11 +146,10 @@ const CartPage = () => {
               <p>Rs. {totalAmount.toFixed(2)}</p>
             </div>
 
-            {/* Checkout Button */}
+            
             <Button
-              color="blue"
               size="lg"
-              className="w-full mt-auto" // This ensures the button stays at the bottom
+              className="w-full mt-auto  hover:bg-white hover:text-black border border-black transition-all duration-300" // This ensures the button stays at the bottom
               onClick={handleOrder}
             >
               PROCEED TO CHECKOUT
