@@ -9,7 +9,7 @@ const BookList = () => {
   if (error) return <h1 className="text-center text-red-500">{error.data?.message}</h1>;
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-2">
       <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {data && data.map((book) => <BookCard key={book._id} book={book} />)}
       </div>
