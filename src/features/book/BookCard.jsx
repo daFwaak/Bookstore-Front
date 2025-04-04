@@ -3,7 +3,7 @@ import { base } from "../../app/apiUrls";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-// BookList component to display list of books
+
 export function BookList({ books }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -14,12 +14,10 @@ export function BookList({ books }) {
   );
 }
 
-// BookCard component to display individual book
+
 export function BookCard({ book }) {
   const nav = useNavigate();
   const [imageError, setImageError] = useState(false);
-
-  // Handle image error, show placeholder if image fails to load
   const handleImageError = () => {
     setImageError(true);
   };
@@ -33,9 +31,9 @@ export function BookCard({ book }) {
         <img
           src={imageError ? "/path/to/placeholder-image.jpg" : `${base}${book.image}`} // Use placeholder image on error
           alt={book.title}
-          onError={handleImageError} // Trigger error handler
+          onError={handleImageError} 
           className="h-full w-full object-cover hover:scale-105 transition-transform"
-          loading="lazy" // Lazy load the images
+          loading="lazy"
         />
       </div>
 
