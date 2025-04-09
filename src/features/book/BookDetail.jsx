@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { base } from "../../app/apiUrls";
-import { Button, Card, IconButton, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  IconButton,
+  Typography,
+} from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { useGetBookQuery, useGetBooksQuery } from "./bookApi";
 import { useAddToCartMutation } from "../cart/cartApi";
@@ -11,44 +16,102 @@ const BookDetail = () => {
   const { data, isLoading, error } = useGetBookQuery(id);
   const { data: books } = useGetBooksQuery();
   const navigate = useNavigate();
+  const [showFullDesc, setShowFullDesc] = useState(false);
+  const descriptionLimit = 400;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  if (isLoading) return <h1 className="text-center text-xl">Loading...</h1>;
-  if (error) return <h1 className="text-center text-xl">{error.data?.message}</h1>;
+  if (isLoading)
+    return <h1 className="text-center text-xl">Loading...</h1>;
+  if (error)
+    return (
+      <h1 className="text-center text-xl">{error.data?.message}</h1>
+    );
 
   const filteredBooks = books?.filter((book) => book._id !== id);
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-6">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div className="md:col-span-4 flex flex-col items-center">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        {/* Left - Image */}
+        <div className="md:col-span-3 flex justify-center">
           <img
-            src={data.image.startsWith("http") ? data.image : `${base}${data.image}`}
+            src={
+              data.image.startsWith("http")
+                ? data.image
+                : `${base}${data.image}`
+            }
             alt={data.title}
-            className="w-40 md:w-52 lg:w-60 h-auto object-cover rounded-lg shadow-md" 
+            className="w-40 md:w-52 lg:w-60 h-auto object-cover rounded-lg shadow-md"
           />
-          <div className="w-full mt-4">
-            <CartTable book={data} />
-          </div>
         </div>
-        
-        <div className="md:col-span-8 space-y-4">
-          <Typography variant="h3" className="font-bold text-lg md:text-2xl">{data.title}</Typography>
-          <Typography variant="h5" className="text-black">by {data.author}</Typography>
-          <Typography className="text-black text-sm md:text-lg">{data.description}</Typography>
-          <Typography variant="h5" className="font-semibold">Price: Nrs. {data.price}</Typography>
-          <Typography className={`text-lg font-semibold ${data.stock > 0 ? "text-green-600" : "text-red-600"}`}>
-            {data.stock > 0 ? `${data.stock} in stock` : "Out of Stock"}
+
+        {/* Middle - Details */}
+        <div className="md:col-span-6 space-y-4">
+          <Typography
+            variant="h3"
+            className="font-bold text-lg md:text-2xl"
+          >
+            {data.title}
           </Typography>
+          <Typography variant="h5" className="text-black">
+            by {data.author}
+          </Typography>
+
+          {/* Synopsis section */}
+          <div>
+            <Typography
+              variant="h6"
+              className="font-bold text-black mb-1"
+            >
+              Synopsis
+            </Typography>
+            <Typography className="text-black text-sm md:text-base">
+              {showFullDesc
+                ? data.description
+                : data.description.length > descriptionLimit
+                ? `${data.description.slice(0, descriptionLimit)}...`
+                : data.description}
+              {data.description.length > descriptionLimit && (
+                <span
+                  onClick={() => setShowFullDesc((prev) => !prev)}
+                  className="text-blue-600 cursor-pointer ml-2"
+                >
+                  {showFullDesc ? "See Less" : "See More"}
+                </span>
+              )}
+            </Typography>
+          </div>
+
+          <Typography variant="h5" className="font-semibold">
+            Price: Nrs. {data.price}
+          </Typography>
+          <Typography
+            className={`text-lg font-semibold ${
+              data.stock > 0 ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {data.stock > 0
+              ? `${data.stock} in stock`
+              : "Out of Stock"}
+          </Typography>
+        </div>
+
+        {/* Right - Add to Cart */}
+        <div className="md:col-span-3">
+          <CartTable book={data} />
         </div>
       </div>
 
+      {/* More Suggestions */}
       {filteredBooks?.length > 0 && (
         <div className="mt-12">
-          <Typography variant="h6" className="mb-3 font-bold text-center">
+          <Typography
+            variant="h6"
+            className="mb-3 font-bold text-center"
+          >
             More Books You May Like
           </Typography>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -60,10 +123,16 @@ const BookDetail = () => {
               >
                 <img
                   className="w-auto h-50 md:h-64 object-contain rounded-md shadow-sm"
-                  src={book.image.startsWith("http") ? book.image : `${base}${book.image}`}
+                  src={
+                    book.image.startsWith("http")
+                      ? book.image
+                      : `${base}${book.image}`
+                  }
                   alt={book.title}
                 />
-                <Typography className=" text-black text-md text-center mt-2">{book.title}</Typography>
+                <Typography className="text-black text-md text-center mt-2">
+                  {book.title}
+                </Typography>
               </div>
             ))}
           </div>
@@ -85,9 +154,18 @@ export function CartTable({ book }) {
 
   const handleAdd = async () => {
     if (!user || user.role === "admin") return;
-    
+
     try {
-      await addToCart({ userId: user.userId, items: [{ bookId: book._id, title: book.title, quantity: qty }] }).unwrap();
+      await addToCart({
+        userId: user.userId,
+        items: [
+          {
+            bookId: book._id,
+            title: book.title,
+            quantity: qty,
+          },
+        ],
+      }).unwrap();
       navigate("/cart-page");
     } catch (error) {
       console.error("Add to cart failed:", error);
@@ -103,9 +181,9 @@ export function CartTable({ book }) {
             onClick={() => setQty(qty - 1)}
             size="sm"
           >
-          <i className="fas fa-minus" />
+            <i className="fas fa-minus" />
           </IconButton>
-            <p className="font-bold">{qty}</p>
+          <p className="font-bold">{qty}</p>
           <IconButton onClick={() => setQty(qty + 1)} size="sm">
             <i className="fas fa-plus" />
           </IconButton>

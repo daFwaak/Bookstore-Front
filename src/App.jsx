@@ -17,6 +17,8 @@ import BookEdit from './features/admin/BookEdit';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import SearchResults from './features/book/SearchResult';
+import FilterPage from './features/book/FilterPage';
 
 
 const App = () => {
@@ -43,6 +45,14 @@ const App = () => {
         {
           path: 'contact',
           element: <Contact />,
+        },
+        {
+          path: 'search',
+          element: <SearchResults />,
+        },
+        {
+          path: 'filter',
+          element: <FilterPage />,
         },
 
 
