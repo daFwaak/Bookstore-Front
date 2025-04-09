@@ -3,7 +3,6 @@ import { base } from "../../app/apiUrls";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-
 export function BookList({ books }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -14,13 +13,16 @@ export function BookList({ books }) {
   );
 }
 
-
 export function BookCard({ book }) {
   const nav = useNavigate();
   const [imageError, setImageError] = useState(false);
+
   const handleImageError = () => {
     setImageError(true);
   };
+
+ 
+  const imageUrl = book.image?.startsWith("http") ? book.image : `${base}${book.image}`;
 
   return (
     <div
@@ -29,9 +31,9 @@ export function BookCard({ book }) {
     >
       <div className="h-[280px] w-[180px]">
         <img
-          src={imageError ? "/path/to/placeholder-image.jpg" : `${base}${book.image}`} // Use placeholder image on error
+          src={imageError ? "/path/to/placeholder-image.jpg" : imageUrl} 
           alt={book.title}
-          onError={handleImageError} 
+          onError={handleImageError}
           className="h-full w-full object-cover hover:scale-105 transition-transform"
           loading="lazy"
         />

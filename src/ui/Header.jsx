@@ -86,13 +86,13 @@ const Header = () => {
     if (searchTerm.trim()) {
       nav(`/search?keyword=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm("");
-      setMobileMenuOpen(false);  // Close the mobile menu after search
+      setMobileMenuOpen(false);  
     }
   };
 
   const handleFilter = () => {
     nav("/filter");
-    setMobileMenuOpen(false);  // Close the mobile menu after filter
+    setMobileMenuOpen(false);  
   };
 
   return (
@@ -117,7 +117,7 @@ const Header = () => {
           </Typography>
         </div>
 
-        {/* Desktop Search Bar */}
+      
         <form
           onSubmit={(e) => {
             e.preventDefault();
