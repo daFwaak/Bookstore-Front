@@ -33,7 +33,7 @@ const AdminBook = () => {
               <tbody>
                 {data.map(({ _id, title, image, createdAt, price }) => {
                   const imageUrl = image?.startsWith("http") ? image : `${base}${image}`;
-                  const placeholderImage = "/path/to/placeholder-image.jpg"; // Replace this with your actual fallback image path
+                  const placeholderImage = "/path/to/placeholder-image.jpg"; 
 
                   return (
                     <tr key={_id} className="hover:bg-gray-100 transition">
@@ -42,7 +42,7 @@ const AdminBook = () => {
                           src={imageUrl}
                           alt={title}
                           size="sm"
-                          onError={(e) => (e.target.src = placeholderImage)} // Fallback on error
+                          onError={(e) => (e.target.src = placeholderImage)} 
                         />
                       </td>
                       <td className="p-4">

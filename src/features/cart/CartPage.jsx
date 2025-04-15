@@ -93,9 +93,8 @@ const CartPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2">
             {apiCart?.items?.map((item) => (
-              item.bookId ? (  // Ensure bookId exists before rendering
+              item.bookId ? (  
                 <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
-                  {/* Book Image */}
                   <div className="w-1/4">
                     <img 
                       src={item.bookId?.image || "default-image-url"} 
@@ -141,11 +140,9 @@ const CartPage = () => {
                     </button>
                   </div>
                 </div>
-              ) : null // Skip rendering if item.bookId is null
+              ) : null 
             ))}
           </div>
-
-          {/* Order Summary Section */}
           <div className="border rounded-lg p-6 shadow-sm bg-white flex flex-col justify-between h-full">
             <h3 className="text-xl font-bold mb-4">Order Summary</h3>
             <div className="flex justify-between text-gray-700 mb-4">
