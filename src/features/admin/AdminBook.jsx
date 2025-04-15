@@ -31,37 +31,47 @@ const AdminBook = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map(({ _id, title, image, createdAt, price }) => (
-                  <tr key={_id} className="hover:bg-gray-100 transition">
-                    <td className="p-4">
-                      <Avatar src={`${base}${image}`} alt={title} size="sm" />
-                    </td>
-                    <td className="p-4">
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {title}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        Rs. {price}
-                      </Typography>
-                    </td>
-                    {/* Created At - Only Visible on Desktop */}
-                    <td className="p-4 hidden md:table-cell">
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {createdAt.substring(0, 10)}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <IconButton onClick={() => nav(`/edit-book/${_id}`)} size="sm" color="green">
-                        <i className="fas fa-edit" />
-                      </IconButton>
-                    </td>
-                    <td className="p-4">
-                      <RemoveDialog id={_id} />
-                    </td>
-                  </tr>
-                ))}
+                {data.map(({ _id, title, image, createdAt, price }) => {
+                  const imageUrl = image?.startsWith("http") ? image : `${base}${image}`;
+                  const placeholderImage = "/path/to/placeholder-image.jpg"; // Replace this with your actual fallback image path
+
+                  return (
+                    <tr key={_id} className="hover:bg-gray-100 transition">
+                      <td className="p-4">
+                        <Avatar
+                          src={imageUrl}
+                          alt={title}
+                          size="sm"
+                          onError={(e) => (e.target.src = placeholderImage)} // Fallback on error
+                        />
+                      </td>
+                      <td className="p-4">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
+                          {title}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
+                          Rs. {price}
+                        </Typography>
+                      </td>
+                      {/* Created At - Only Visible on Desktop */}
+                      <td className="p-4 hidden md:table-cell">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
+                          {createdAt.substring(0, 10)}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <IconButton onClick={() => nav(`/edit-book/${_id}`)} size="sm" color="green">
+                          <i className="fas fa-edit" />
+                        </IconButton>
+                      </td>
+                      <td className="p-4">
+                        <RemoveDialog id={_id} />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </Card>

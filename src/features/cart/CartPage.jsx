@@ -57,7 +57,7 @@ const CartPage = () => {
     const orderData = {
       body: {
         items: apiCart.items.map((item) => ({
-          bookId: item.bookId._id,
+          bookId: item.bookId?._id,
           quantity: item.quantity,
         })),
         totalAmount: apiCart.items.reduce(
@@ -87,66 +87,72 @@ const CartPage = () => {
 
   return (
     <main className="flex-grow flex items-center justify-center bg-cover bg-center min-h-[calc(100vh-theme(height.32)-theme(height.16))]">
-    <div className="max-w-5xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Shopping Cart ({apiCart?.items?.length})</h2>
+      <div className="max-w-5xl mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6">Shopping Cart ({apiCart?.items?.length})</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2">
-          {apiCart?.items?.map((item) => (
-            <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
-              
-              
-              <div className="flex-1 ml-4">
-                <h3 className="text-lg font-semibold">{item.bookId?.title}</h3>
-                <p className="text-gray-500">by {item.bookId?.author}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2">
+            {apiCart?.items?.map((item) => (
+              item.bookId ? (  // Ensure bookId exists before rendering
+                <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
+                  {/* Book Image */}
+                  <div className="w-1/4">
+                    <img 
+                      src={item.bookId?.image || "default-image-url"} 
+                      alt={item.bookId?.title} 
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
 
-                
-                <div className="flex items-center mt-2">
-                  <Button
-                    color="gray"
-                    size="sm"
-                    variant="outlined"
-                    className="rounded-md px-3"
-                    onClick={() => handleUpdate(item.bookId._id, item.quantity - 1)}
-                  >
-                    -
-                  </Button>
-                  <span className="mx-3 text-lg">{item.quantity}</span>
-                  <Button
-                    color="gray"
-                    size="sm"
-                    variant="outlined"
-                    className="rounded-md px-3"
-                    onClick={() => handleUpdate(item.bookId._id, item.quantity + 1)}
-                  >
-                    +
-                  </Button>
+                  <div className="flex-1 ml-4">
+                    <h3 className="text-lg font-semibold">{item.bookId?.title}</h3>
+                    <p className="text-gray-500">by {item.bookId?.author}</p>
+
+                    <div className="flex items-center mt-2">
+                      <Button
+                        color="gray"
+                        size="sm"
+                        variant="outlined"
+                        className="rounded-md px-3"
+                        onClick={() => handleUpdate(item.bookId._id, item.quantity - 1)}
+                      >
+                        -
+                      </Button>
+                      <span className="mx-3 text-lg">{item.quantity}</span>
+                      <Button
+                        color="gray"
+                        size="sm"
+                        variant="outlined"
+                        className="rounded-md px-3"
+                        onClick={() => handleUpdate(item.bookId._id, item.quantity + 1)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-lg font-semibold">Rs. {item.bookId?.price}</p>
+                    <button
+                      onClick={() => handleRemove(item.bookId._id)}
+                      className="text-red-500 mt-2 flex items-center"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : null // Skip rendering if item.bookId is null
+            ))}
+          </div>
 
-              
-              <div className="text-right">
-                <p className="text-lg font-semibold">Rs. {item.bookId?.price}</p>
-                <button
-                  onClick={() => handleRemove(item.bookId._id)}
-                  className="text-red-500 mt-2 flex items-center"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Order Summary Section */}
-        <div className="border rounded-lg p-6 shadow-sm bg-white flex flex-col justify-between h-full">
-          <h3 className="text-xl font-bold mb-4">Order Summary</h3>
-           <div className="flex justify-between text-gray-700 mb-4">
-             <p>Sub-total</p>
-              <p>Rs. {totalAmount.toFixed(2)}</p>
+          {/* Order Summary Section */}
+          <div className="border rounded-lg p-6 shadow-sm bg-white flex flex-col justify-between h-full">
+            <h3 className="text-xl font-bold mb-4">Order Summary</h3>
+            <div className="flex justify-between text-gray-700 mb-4">
+              <p>Sub-total</p>
+              <p>Rs. {totalAmount?.toFixed(2)}</p>
             </div>
 
-            
             <Button
               size="lg"
               className="w-full mt-auto  hover:bg-white hover:text-black border border-black transition-all duration-300" // This ensures the button stays at the bottom
@@ -154,10 +160,9 @@ const CartPage = () => {
             >
               PROCEED TO CHECKOUT
             </Button>
+          </div>
         </div>
-
       </div>
-    </div>
     </main>
   );
 };
