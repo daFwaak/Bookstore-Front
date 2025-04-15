@@ -143,7 +143,7 @@ const Header = () => {
 
           <Button
             onClick={handleFilter}
-            className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 transition"
+            className="px-4 py-2  bg-white text-black rounded-lg hover:bg-black hover:text-white border border-white transition-all duration-300"
           >
             Filter
           </Button>
@@ -153,7 +153,7 @@ const Header = () => {
           {user ? (
             <ProfileMenu user={user} />
           ) : (
-            <Button onClick={() => nav("/login")} className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition">
+            <Button onClick={() => nav("/login")} className="px-4 py-2 bg-white text-black rounded-lg hover:bg-black hover:text-white border border-white transition-all duration-300">
               Log In
             </Button>
           )}

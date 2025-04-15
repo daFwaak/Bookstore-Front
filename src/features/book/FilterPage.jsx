@@ -81,7 +81,7 @@ const FilterPage = () => {
 
         <button
           onClick={handleApplyFilters}
-          className="ml-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="ml-auto px-3 py-1 bg-black text-white rounded-lg hover:bg-white hover:text-black border border-black transition-all duration-300"
         >
           Apply Filters
         </button>
