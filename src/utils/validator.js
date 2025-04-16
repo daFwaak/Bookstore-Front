@@ -23,10 +23,18 @@ export const updateSchema = Yup.object({
 });
 
 
-export const registerSchema = Yup.object({
+export const registerSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().required('Password is required'),
+  role: Yup.string()
+    .oneOf(['user', 'admin'], 'Role must be either user or admin')
+    .required('Role is required'),
+  secretKey: Yup.string().when('role', (role, schema) => {
+    return role === 'admin'
+      ? schema.required('Secret key is required for admin')
+      : schema.notRequired();
+  }),
 });
 
 export const validImageType = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];

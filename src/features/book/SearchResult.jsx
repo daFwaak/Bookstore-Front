@@ -16,23 +16,19 @@ const SearchResults = () => {
   const { data: books = [], isLoading, error } = useGetBooksQuery();
 
   const filteredBooks = useMemo(() => {
-    let results = [...books];
+    return books.filter((book) => {
+      const matchesKeyword = keyword
+        ? book.title.toLowerCase().includes(keyword.toLowerCase())
+        : true;
 
-    if (keyword) {
-      results = results.filter((book) =>
-        book.title.toLowerCase().includes(keyword.toLowerCase())
-      );
-    }
+      const matchesCategory = category !== "All" 
+        ? book.category === category 
+        : true;
 
-    results = results.filter(
-      (book) => book.price >= priceRange[0] && book.price <= priceRange[1]
-    );
+      const matchesPrice = book.price >= priceRange[0] && book.price <= priceRange[1];
 
-    if (category !== "All") {
-      results = results.filter((book) => book.category === category);
-    }
-
-    return results;
+      return matchesKeyword && matchesCategory && matchesPrice;
+    });
   }, [books, keyword, category, priceRange]);
 
   if (isLoading) return <div className="text-center mt-10">Loading...</div>;

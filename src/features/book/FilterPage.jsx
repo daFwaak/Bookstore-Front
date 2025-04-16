@@ -5,45 +5,33 @@ import { BookCard } from '../book/BookCard';
 const FilterPage = () => {
   const [category, setCategory] = useState('All');
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
-
   const { data: books = [], isLoading, error } = useGetBooksQuery();
 
   const handleApplyFilters = () => {
     if (!books.length) return;
 
-    let results = [...books];
-    if (category !== 'All') {
-      results = results.filter(
-        (book) => book.category.trim().toLowerCase() === category.trim().toLowerCase()
-      );
-    }
-    results = results.filter(
-      (book) =>
-        Number(book.price) >= priceRange[0] &&
-        Number(book.price) <= priceRange[1]
-    );
+    const filtered = books.filter((book) => {
+      const matchesCategory =
+        category === 'All' || book.category.trim().toLowerCase() === category.trim().toLowerCase();
+      const matchesPrice =
+        Number(book.price) >= priceRange[0] && Number(book.price) <= priceRange[1];
 
-    setFilteredBooks(results);
+      return matchesCategory && matchesPrice;
+    });
+
+    setFilteredBooks(filtered);
   };
 
   const getFilterLabel = () => {
-    let filterLabel = 'All Books';
-
-    if (category !== 'All') {
-      filterLabel = `Category: ${category}`;
-    }
-
-    if (priceRange[0] !== 0 || priceRange[1] !== 1000) {
-      const priceLabel = `Price: Nrs ${priceRange[0]} - Nrs ${priceRange[1]}`;
-      filterLabel = category === 'All' ? priceLabel : `${filterLabel}, ${priceLabel}`;
-    }
-
-    return filterLabel;
+    const categoryLabel = category !== 'All' ? `Category: ${category}` : '';
+    const priceLabel = priceRange[0] !== 0 || priceRange[1] !== 1000
+      ? `Price: Nrs ${priceRange[0]} - Nrs ${priceRange[1]}`
+      : '';
+    return [categoryLabel, priceLabel].filter(Boolean).join(', ') || 'All Books';
   };
 
   if (isLoading) return <div className="text-center mt-10">Loading...</div>;
-  if (error) return <div className="text-center text-red-500">{error.message}</div>;
+  if (error) return <div className="text-center text-red-500">{error?.message}</div>;
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -59,8 +47,8 @@ const FilterPage = () => {
           <option value="Fiction">Fiction</option>
           <option value="Mystery & Thriller">Mystery & Thriller</option>
           <option value="Romance">Romance</option>
-          <option value="non-fiction">Non-fiction</option>
-          <option value="other">Other</option>
+          <option value="Non-fiction">Non-fiction</option>
+          <option value="Other">Other</option>
         </select>
 
         <select

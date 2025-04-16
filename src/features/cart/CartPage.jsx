@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
-import {
-  useGetCartQuery,
-  useUpdateCartMutation,
-  useRemoveFromCartMutation
-} from "./cartApi";
-
+import { useGetCartQuery, useUpdateCartMutation, useRemoveFromCartMutation } from "./cartApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "./cartSlice";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { useCreateOrderMutation } from "../order/orderApi";
 
@@ -15,22 +10,27 @@ const CartPage = () => {
   const { data: apiCart, isLoading, error, refetch } = useGetCartQuery();
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
-  const [createOrder] = useCreateOrderMutation(); 
+  const [createOrder] = useCreateOrderMutation();
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const user = useSelector((state) => state.userSlice.user);
 
   useEffect(() => {
     if (apiCart) {
-      dispatch(addToCart({
-        items: apiCart.items,
-        totalAmount: apiCart.items.reduce((sum, item) => sum + (item.bookId?.price || 0) * item.quantity, 0)
-      }));
+      dispatch(
+        addToCart({
+          items: apiCart.items,
+          totalAmount: apiCart.items.reduce(
+            (sum, item) => sum + (item.bookId?.price || 0) * item.quantity,
+            0
+          ),
+        })
+      );
     }
   }, [apiCart, dispatch]);
 
   const handleUpdate = async (bookId, quantity) => {
-    if (quantity < 1) return;
+    if (quantity < 1) return; // Prevent negative quantities
     try {
       await updateCart({ bookId, quantity }).unwrap();
       refetch();
@@ -65,13 +65,13 @@ const CartPage = () => {
           0
         ),
       },
-      token: user.token, 
+      token: user.token,
     };
 
     try {
       await createOrder(orderData).unwrap();
       alert("Order placed successfully!");
-      refetch(); 
+      refetch();
     } catch (error) {
       console.error("Order creation failed:", error);
       alert("Failed to place order. Please try again.");
@@ -92,7 +92,7 @@ const CartPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2">
-            {apiCart?.items?.map((item) => (
+            {apiCart?.items?.map((item) =>
               item.bookId ? (  
                 <div key={item.bookId._id} className="flex items-center justify-between border-b pb-4 mb-4">
                   <div className="w-1/4">
@@ -141,7 +141,7 @@ const CartPage = () => {
                   </div>
                 </div>
               ) : null 
-            ))}
+            )}
           </div>
           <div className="border rounded-lg p-6 shadow-sm bg-white flex flex-col justify-between h-full">
             <h3 className="text-xl font-bold mb-4">Order Summary</h3>
@@ -152,7 +152,7 @@ const CartPage = () => {
 
             <Button
               size="lg"
-              className="w-full mt-auto  hover:bg-white hover:text-black border border-black transition-all duration-300" // This ensures the button stays at the bottom
+              className="w-full mt-auto  hover:bg-white hover:text-black border border-black transition-all duration-300"
               onClick={handleOrder}
             >
               PROCEED TO CHECKOUT
