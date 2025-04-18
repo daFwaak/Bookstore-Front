@@ -97,7 +97,7 @@ const Header = () => {
 
   return (
     <div className="w-full bg-black">
-      <Navbar fullWidth className="p-4 flex items-center justify-between text-white bg-black shadow-md">
+      <Navbar fullWidth className="p-4 flex items-center justify-between text-white bg-black border-none">
         <Typography as="a" href="/" className="text-2xl font-bold cursor-pointer">
           Mini-Bookstore
         </Typography>
