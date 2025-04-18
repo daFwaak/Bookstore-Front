@@ -148,34 +148,7 @@ const Home = () => {
           ))}
         </Carousel>
       </section>
-
-      {/* Why Choose Us */}
-      <section className="py-16 px-6 bg-gray-100">
-        <h2 className="text-3xl font-bold mb-12 text-center">Why Choose Us?</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-          <div className="p-6 bg-white shadow rounded-xl">
-            <img src="/icons/delivery.svg" alt="Fast Delivery" className="mx-auto h-12 mb-4" />
-            <h4 className="font-bold text-lg mb-2">Fast Delivery</h4>
-            <p className="text-gray-600 text-sm">Get your favorite books delivered quickly and safely.</p>
-          </div>
-          <div className="p-6 bg-white shadow rounded-xl">
-            <img src="/icons/star.svg" alt="Curated Picks" className="mx-auto h-12 mb-4" />
-            <h4 className="font-bold text-lg mb-2">Curated Picks</h4>
-            <p className="text-gray-600 text-sm">Handpicked books for every mood and interest.</p>
-          </div>
-          <div className="p-6 bg-white shadow rounded-xl">
-            <img src="/icons/lock.svg" alt="Secure Checkout" className="mx-auto h-12 mb-4" />
-            <h4 className="font-bold text-lg mb-2">Secure Checkout</h4>
-            <p className="text-gray-600 text-sm">Shop with confidence — your data is safe with us.</p>
-          </div>
-          <div className="p-6 bg-white shadow rounded-xl">
-            <img src="/icons/support.svg" alt="Friendly Support" className="mx-auto h-12 mb-4" />
-            <h4 className="font-bold text-lg mb-2">Friendly Support</h4>
-            <p className="text-gray-600 text-sm">We're always here to help you with bookish needs.</p>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Newsletter */}
       <section className="py-16 px-6 bg-gray-800 text-white text-center">
         <p className="mb-6 text-lg">Get updates on new arrivals and special offers straight to your inbox.</p>
